@@ -1,0 +1,17 @@
+*.html
+*.xml
+*.log
+*screenshot*.png
+.idea/
+.idea_modules/
+atlassian-ide-plugin.xml
+*.iml
+*.ipr
+*.iws
+node_modules/
+package.json
+package-lock.json
+*.DS_Store
+*/__pycache__/*
+__pycache__/*
+*env/
