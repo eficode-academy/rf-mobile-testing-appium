@@ -23,7 +23,13 @@ Visit https://developer.android.com/studio and download a copy of Android Studio
 
 Follow the screenshots below to see what you need to download.
 
+First image shows how to access SDK Manager without creating a new project in Android Studio.
+![SDK Manager in Android Studio Settings](./pics/Android_studio_ide_0.png)
+
+Following images show how to find SDK Manager in Android Studio Settings.
 ![SDK Manager in Android Studio Settings](./pics/Android_studio_ide_1.png)
+
+Following images show what parts of SDK Manager to select.
 ![SDK Manager in Android Studio Settings](./pics/Android_studio_ide_2.png)
 ![SDK Manager in Android Studio Settings](./pics/Android_studio_ide_3.png)
 ![SDK Manager in Android Studio Settings](./pics/Android_studio_ide_4.png)
