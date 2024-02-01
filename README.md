@@ -123,7 +123,9 @@ Read Appium Doctor's output. Below we list some of the issues you will have to r
 ### Java 8
 Both old and new Android version work with Java 8. Read more on the topic [here](./further-reading.md). We do not recommend installing it system-wide. You can download, unzip, and make it work locally in a terminal via changes to the `${PATH}` and `${JAVA_HOME}` variables.
 
-You can download Adoptium Temurin Java 8 from https://adoptium.net/marketplace/?os=any&version=8
+You can download Adoptium Temurin Java 8 from https://adoptium.net/marketplace/?os=any&version=8 
+
+Note that if you cannot find Java 8 in the list, check if your system is supported https://adoptium.net/supported-platforms/ and if it is not, switch to Java 11.
 
 With `export` set the unzipped Java 8 directory as `${JAVA_HOME}`. Add the `/bin` inside it at the beginning of your `${PATH}` to make it take precedence over system-wide Java. Check that it works.
 ```bash
