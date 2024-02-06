@@ -67,6 +67,10 @@ If you use a physical device, that has been turned on for some time, its device 
 ```bash
 adb -s ${UDID} logcat -c
 ```
+To find out what is the app package of the open application, and what is the activity visible on the device, you can inspect a dump from ADB:
+```bash
+adb -s ${UDID} shell "dumpsys window windows"
+```
 
 ## Android emulator start
 Below is a simplified list of the commands. For full documentation please refer to https://developer.android.com/studio/run/emulator-commandline.html
