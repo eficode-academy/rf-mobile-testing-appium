@@ -1,9 +1,14 @@
 *** Settings ***
 Library    AppiumLibrary
-Resource    Resources/Clock.resource
 Resource    ${phone}.resource
 
 *** Variables ***
+# download APK from https://f-droid.org/en/packages/org.fossify.calendar/
+${APP_PACKAGE}     org.fossify.calendar
+${APP_ACTIVITY}    org.fossify.calendar.activities.MainActivity
+
+${PLUS_BUTTON}    ${APP_PACKAGE}:id/calendar_fab
+${APK_LOC}    ${APK_DIRECTORY}/org.fossify.calendar_3.apk
 
 *** Test Cases ***
 Open clock app for any device
@@ -15,14 +20,14 @@ Open clock app for any device
     ...    deviceName=${DEVICE_NAME}
     ...    appPackage=${APP_PACKAGE}
     ...    appActivity=${APP_ACTIVITY}
+    ...    app=${APK_LOC}
     ...    udid=${UDID}
 
     Log    ${APPIUM_URL} ${appium_settings}
     Open Application    ${APPIUM_URL}    &{appium_settings}
 
-    Click Element    ${TAB_MENU_ALARM}
-    Wait Until Element Is Visible    ${NEW_ALARM_BUTTON}
-
+    Wait Until Element Is Visible    ${PLUS_BUTTON}
+    Sleep    20
     Log Source
     Capture Page Screenshot
     [Teardown]    Close All Applications
