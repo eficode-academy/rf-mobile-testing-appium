@@ -110,7 +110,6 @@ We recommend hard-coding the `${EMULATOR_PORT}` value in the emulator configurat
 After the tests are done, emulator can be shut down with:
 ```bash
 adb -s ${UDID} emu kill
-avdmanager -v delete avd -n "${DEVICE_NAME}"
 ```
 Note that emulator can take a while to shut down. Moreover, if the shutdown is incorrect or partial, processes or artifacts can remain, and prevent the start of the emulator next time.
 
