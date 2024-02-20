@@ -71,6 +71,11 @@ To find out what is the app package of the open application, and what is the act
 ```bash
 adb -s ${UDID} shell "dumpsys window windows"
 ```
+To find out name of the starting app activity, open the app and run the following command:
+```bash
+adb -s ${UDID} shell logcat -d | grep 'START u0' | tail -n 1 | sed 's/.*cmp=\(.*\)} .*/\1/g'
+```
+Note that the printed name may contain `/`, but you should remove it before using it as an Appium parameter.
 
 ## Android emulator start
 Below is a simplified list of the commands. For full documentation please refer to https://developer.android.com/studio/run/emulator-commandline.html
