@@ -16,7 +16,7 @@ Open clock app
 
 
 # platform-specific keyword
-# usage: Open ${PLATFORM} mobile application
+# usage: Run keyword    Open ${PLATFORM} mobile application
 
 Assemble ios settings for appium
     &{settings_dict} =    Create Dictionary
