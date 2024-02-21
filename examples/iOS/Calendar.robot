@@ -11,4 +11,5 @@ ${TITLE_FIELD}     id=Title
 # This is why setting locale and language is important for the test to pass
 ${ALLDAY_CHECKBOX}    //XCUIElementTypeSwitch[@name="All-day"]
 ${DELETE_EVENT}    //XCUIElementTypeStaticText[@name="Delete Event"]
+${DELETE_EVENT_BUTTON}    //XCUIElementTypeButton[@name="Delete Event"]
 ${DELETE_CONFIRM}    //XCUIElementTypeStaticText[@name="Are you sure you want to delete this event?"]

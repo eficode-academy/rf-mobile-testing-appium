@@ -19,11 +19,11 @@ iOS Calendar POC
     Click Element                         ${ALLDAY_CHECKBOX}
     Element Should Be Enabled             ${ADD_BUTTON}
     Click Element                         ${ADD_BUTTON}
-    Wait and Click                        //XCUIElementTypeButton[@name="Today, Tuesday, February 6"]
+    Wait and Click                        //XCUIElementTypeButton[contains(@name, 'Today')]
     Wait and Click                        //XCUIElementTypeButton[@name="${EVENT_NAME}, All day"]
     Wait and Click                        ${DELETE_EVENT}
     Wait Until Element Is Visible         ${DELETE_CONFIRM}
-    Click Element                         ${DELETE_EVENT}
+    Click Element                         ${DELETE_EVENT_BUTTON}
     Wait and Click                        //XCUIElementTypeButton[@name="February"]
     Log To Console                        Done with POC
 
