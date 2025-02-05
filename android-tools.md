@@ -45,10 +45,22 @@ Install an Android binary application (apk file) on a device
 ```bash
 adb -s ${UDID} install "${APK_FILE_WITH_PATH}"
 ```
+
 To get the version of installed application run:
 ```bash
 adb -s ${UDID} shell dumpsys package ${APP_PACKAGE_NAME} | grep versionName
 ```
+
+To find out what is the app package of the open application, and what is the activity visible on the device, you can inspect a dump from ADB:
+```bash
+adb -s ${UDID} shell "dumpsys window windows"
+```
+
+To find out name of the starting app activity, open the app and run the following command:
+```bash
+adb -s ${UDID} shell logcat -d | grep 'START u0' | tail -n 1 | sed 's/.*cmp=\(.*\)} .*/\1/g'
+```
+Note that the printed name may contain `/`, but you should remove it before using it as an Appium parameter.
 
 ## More advanced usage
 Get platform version of the device:
@@ -105,7 +117,6 @@ We recommend hard-coding the `${EMULATOR_PORT}` value in the emulator configurat
 After the tests are done, emulator can be shut down with:
 ```bash
 adb -s ${UDID} emu kill
-avdmanager -v delete avd -n "${DEVICE_NAME}"
 ```
 Note that emulator can take a while to shut down. Moreover, if the shutdown is incorrect or partial, processes or artifacts can remain, and prevent the start of the emulator next time.
 
