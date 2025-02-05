@@ -1,3 +1,4 @@
-robotframework
-robotframework-appiumlibrary
-nodeenv
+# For workshop February 2025
+robotframework==7.2
+robotframework-appiumlibrary==2.1.0
+nodeenv==1.9.1
