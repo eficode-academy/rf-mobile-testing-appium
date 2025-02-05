@@ -1,23 +1,23 @@
-# Robocon 2024
+# How to test mobile apps with Robot Framework and Appium
 
 ## Introduction
 
-This is a document for the 2024 Robocon Mobile application testing workshop. All participants are requested to follow the instructions to set up a development environment. Installing is a task that can take some time. However, if all of you, dear participants, come prepared, we will be able to start working on more interesting topics!
+This repo contains instructions for a workshop on mobile application testing with Robot Framework and Appium. All participants are required to have a ready development environment before joining the workshop. Instructions for that are below. Note that this setup is a task that can take some time. Required elements like connecting to test devices is often error-prone. Please start well in advance.
 
-If you have trouble with the instructions, or would like to approach the topic differently, please contact us via email or workshop Slack channel.
+If you have trouble with the instructions, or would like to approach the topic differently, please contact the instructors.
 
 ## Table of contents
 <!-- TOC -->
-* [Robocon 2024](#robocon-2024)
+* [How to test mobile apps with Robot Framework and Appium](#how-to-test-mobile-apps-with-robot-framework-and-appium)
   * [Introduction](#introduction)
   * [Table of contents](#table-of-contents)
-* [Install instructions](#install-instructions)
+* [Instructions for setup with virtual environments](#instructions-for-setup-with-virtual-environments)
   * [Step 0. Download Android SDK and its tools](#step-0-download-android-sdk-and-its-tools)
   * [Step 1. Get Appium Doctor to work (in virtual environments)](#step-1-get-appium-doctor-to-work-in-virtual-environments)
     * [Create a python virtual environment](#create-a-python-virtual-environment)
     * [Create a nodeJS virtual environment](#create-a-nodejs-virtual-environment)
   * [Step 2. Set up everything else for Android](#step-2-set-up-everything-else-for-android)
-    * [Java 8](#java-8)
+    * [Java](#java)
     * [bundletool jar](#bundletool-jar)
     * [ffmpeg](#ffmpeg)
     * [GStreamer tools](#gstreamer-tools)
@@ -28,16 +28,22 @@ If you have trouble with the instructions, or would like to approach the topic d
 * [Final notes](#final-notes)
 <!-- TOC -->
 
-# Install instructions
+# Instructions for setup with virtual environments
+We recommend setting up using virtual environments, and the following instructions focus on this.
+Setup may be easier to do with macOS or Linux, however we had some problems with Windows. For some of them, we wrote [additional instructions](./further-reading.md).  Please contact us if you have encountered any issues you couldn't solve.
+
 In the instructions we will make changes to the `${PATH}` variable.  Keep track of what you do to it!
+You can use this information later to create a script that enables the full environment instantly.
 
 ## Step 0. Download Android SDK and its tools
-Make sure that you have the newest Android Studio with Android SDK downloaded, and installed. Note that it is not enough to download the zips, you also need to unpack them and use the SDK Manager to download binary tools as well as system image(s). You may require about 6-10GB of space.
+Make sure that you have a new Android Studio with Android SDK downloaded, and installed. Note that it is not enough to download the zip files, you also need to unpack them and use the SDK Manager to download binary tools as well as system image(s). That may require about 6-10GB of space.
 
-Visit https://developer.android.com/studio and download a copy of Android Studio Hedgehog. If you have an older copy, please get the newest one.
+Visit https://developer.android.com/studio and download a copy of Android Studio Ladybug. If you already have a copy, but it is older than a 2024 release, please get newer one.
 
 <details><summary>
 Open this section to follow the screenshots and see what you need to download in Android Studio.</summary>
+
+Please note that provided screenshots were made in January 2024, with Android Studio Hedgehog release. There may be minor discrepancies between them and the newest IDE. Use your own discretion to navigate the changes. You are free to download a more recent API version like 35.
 
 ![SDK Manager in Android Studio Settings](./pics/Android_studio_ide_1.png)
 ![SDK Manager in Android Studio Settings](./pics/Android_studio_ide_2.png)
@@ -58,10 +64,10 @@ Based on that `${ANDROID_HOME}` variable, you will have to modify the `${PATH}`:
 export PATH=${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/emulator:${ANDROID_HOME}/platform-tools
 ```
 These three paths are necessary for easy access to the tools.
-Note that the folder structure of an older Android SDK may be different. If your SDK contains folder `tools/`, you should add it to the `${PATH}` in the same manner.
+Note that the folder structure of an older Android SDK may be different. If your SDK is old, and has been updated, it may contain folder `tools` instead of `cmdline-tools`. You should add it to the `${PATH}` in the same manner.
 
 ## Step 1. Get Appium Doctor to work (in virtual environments)
-You need to be able to execute Robot Framework, Appium, and Appium Doctor from the command line, ideally from isolated virtual environments.
+You need to be able to execute Robot Framework, Appium, and Appium Doctor from the command line. Ideally from virtual environments, not system-wide.
 
 For that you will need to have in your system Python 3 with pip, wheel, virtualenv (not venv), as well as Node.js with npm.
 
@@ -74,8 +80,8 @@ python3 -m pip show wheel
 node --version
 npm --version
 ```
-You need python _>=3.8_ and node _>=16.13.0_. Note that stable newest release is best to use. If in doubt, upgrade.
-If you are missing these tools, please use the official instructions on how to install them on your operating system. We have not tried to use `pipx` to install the python tools, so we cannot recommend it.
+You need python _>=3.8_ and node _>=16.13.0_. Note that stable newest release is best to use. If you have something older and aren't sure if it's OK, please upgrade.
+If you are missing these tools, please use the official instructions on how to install them on your operating system. Ubuntu users may have a new tool `pipx` available, but as we have no experience with it, we cannot recommend it.
 
 - https://www.python.org/
 - https://pypi.org/project/wheel/
@@ -101,46 +107,47 @@ nodeenv node-env
 source node-env/bin/activate
 which npm
 ```
-Install the necessary Node.js packages. Note that if newest Appium does not work for you, you can try downgrading it (from _2.4.1_ to _2.4.0_).
+Install the necessary Node.js packages. Go for latest stable Appium (in February 2025 it is 1.15.0). Check with `which` that Appium is indeed installed in the virtual environment, not system-wide.
 ```bash
 npm install -g appium
 npm install -g mjpeg-consumer
+which appium
 ```
 At this point you should have two virtual environments enabled at the same time. _Keep them both active!_
 
-If you are having problems with `nodeenv`, check out [Further reading](./further-reading.md) document.
+Alternatives to `nodeenv` (like prefix) are in [Further reading](./further-reading.md) document, if you cannot get it to work for you.
 
 ## Step 2. Set up everything else for Android
-You should be able to run Appium Doctor now!
+You should be able to run Appium Doctor now! It is a tool that checks driver-specific setup, so you need drivers first, and then you can verify your setup is complete.
 
-Make sure you have Appium's UiAutomator2 driver installed. Then execute Appium Doctor with for this driver. The output of this command will `WARN` you if you are still missing something.
+Note that Appium installs the drivers in the `${APPIUM_HOME}` directory. If this variable is not set, then Appium will install drivers a hidden directory inside the user's `${HOME}`. You can only have one driver version installed in `${APPIUM_HOME}`. We recommend you create a driver-specific directory and set `${APPIUM_HOME}` variable before installing uiautomator2. To have everything together, you could create it inside the same folder in the same location as the `python-env` and `node-env` directories.
+
+Start with installing UiAutomator2 driver. Then execute Appium Doctor with for this driver. The output of this command will `WARN` you if you are still missing something.
 ```bash
+export APPIUM_HOME=/your/absolute/path/to/directory/for/appiumdrivers
 appium driver install uiautomator2
 appium driver doctor uiautomator2
 ```
-Read Appium Doctor's output. Below we list some of the issues you will have to resolve in your system, and how to do it neatly.
+Read Appium Doctor's output. Below we list some of the issues you may have to resolve in your system, and how to do it neatly.
 
-### Java 8
-Both old and new Android version work with Java 8. Read more on the topic [here](./further-reading.md). We do not recommend installing it system-wide. You can download, unzip, and make it work locally in a terminal via changes to the `${PATH}` and `${JAVA_HOME}` variables.
+### Java
+Install Java. For work with newer Androids, latest stable Java 21 or 17 should be good enough. Make sure that Java is in the `${PATH}` and the `${JAVA_HOME}` is set correctly. Use the recommended installer for your OS.
 
-You can download Adoptium Temurin Java 8 from https://adoptium.net/marketplace/?os=any&version=8 
+Alternatively, you can download Adoptium's Temurin Java from https://adoptium.net/marketplace/?os=any&version=17 and unzip it somewhere. Then you need to use that location as your new `${JAVA_HOME}`. This way you can set up and switch between different Java versions.
 
-Note that if you cannot find Java 8 in the list, check if your system is supported https://adoptium.net/supported-platforms/ and if it is not, switch to Java 11.
-
-With `export` set the unzipped Java 8 directory as `${JAVA_HOME}`. Add the `/bin` inside it at the beginning of your `${PATH}` to make it take precedence over system-wide Java. Check that it works.
+Here are commands how the variables should look:
 ```bash
-export JAVA_HOME=/your-java8-absolute-path
+export JAVA_HOME=/your-java-absolute-path
 echo ${JAVA_HOME}
 export PATH=${JAVA_HOME}/bin:${PATH}
 java -version
 ```
-Make sure that when you run any Android SDK commands, you do it always with the same version of Java!
 
-When you execute `adb` (Android Debug Bridge) commands, an adb server will be started, and stay running in the background. Java version running that server has to match the Java used for other `adb` command calls.
+If you have more than one Java version installed, to avoid random errors, please keep using the same Java version with all Android SDK commands.
 
 ### bundletool jar
-Download the latest bundletool from https://github.com/google/bundletool/releases/ (currently it should be _1.15.6_). You will need to add it to the `${PATH}` for Appium.
-Note that Appium looks for `bundletool.jar`.
+Download the latest bundletool from https://github.com/google/bundletool/releases/ (in February 2025 it should be _1.18.0_). You will need to add it to the `${PATH}` for Appium.
+Note that Appium looks for `bundletool.jar`, while the distributed `.jar` file has a version number.
 
 You can rename the file, or keep the original (so you can still see the version), but create a soft-link to it. You also need to make it executable.
 ```bash
@@ -155,12 +162,14 @@ This is a necessary system-wide installation. Use official instructions from htt
 This is a necessary system-wide installation. Use the instructions linked by Appium Doctor.
 
 ## Step 3. Android setup summary and environment check
-When you are done with the last step, you should have two virtual environments enabled (changing your `${PATH}`), and the following manually-added directories in your `${PATH}` variable:
-- absolute path to Java 8's JDK and JRE binaries
+When you are done with the last step, you should have two virtual environments enabled (changing your `${PATH}`), and manually-added directories in your `${PATH}` variable:
+- absolute path to python environment with Robot Framework and AppiumLibrary
+- absolute path to nodejs environment with Appium
+- absolute path to Java's JDK and JRE binaries
 - absolute path to a folder containing `bundletool.jar` or a link to it
-- Android SDK subdirectory `cmdline-tools/latest/bin`
-- Android SDK subdirectory `emulator`
-- Android SDK subdirectory `platform-tools`
+- Android Home's subdirectory `cmdline-tools/latest/bin`
+- Android Home's subdirectory `emulator`
+- Android Home's subdirectory `platform-tools`
 
 Re-run Appium Doctor. Check that there are no WARN messages anymore in the output.
 ```bash
@@ -169,7 +178,7 @@ appium driver doctor uiautomator2
 ## Step 4. Testing with physical Android phones
 We instruct you to download an emulator image, and we will test mostly with them. However, you can (and should try to) run tests on actual Android phones.
 
-On macOS, no additional setup is needed.
+On macOS, no additional setup should be needed.
 
 On Windows, you may have to install drivers according to documentation https://developer.android.com/studio/run/oem-usb
 
@@ -179,8 +188,6 @@ and make sure your user is part of the `plugdev` and `adbusers` groups.
 
 ## Step 5. Software for UI inspections
 Get an executable of the newest version of Appium Inspector from https://github.com/appium/appium-inspector/releases
-
-This is the primary inspector we will use. We will have a look also at UIAutomatorViewer (which seems to be gone from the newest version of Android SDK) for Android, and Xcode Inspector for iOS.
 
 ## Step 6. Setup for iOS development (macOS only)
 These instructions assume you have done all the steps for the Android side. We will re-use the virtual environments.
