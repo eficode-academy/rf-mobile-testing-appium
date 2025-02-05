@@ -2,7 +2,7 @@
 Under normal operation, Android devices (both physical and emulated), can be controlled with `adb`.
 
 ## Basic usage
-When you execute `adb` first time, an adb server will be started, and it will keep running in the background. Java version running that server has to match the Java used for other `adb` command calls.
+When you execute `adb` first time, an adb server will be started, and it will keep running in the background. After that you can run `adb` commands from any terminal. Java version running that server should match the Java used for other `adb` command calls.
 
 If you want to have control over when the server is started and killed, you can use the following commands:
 ```bash
@@ -18,7 +18,7 @@ To only list physical devices:
 ```bash
 adb -d devices
 ```
-Use known Unique Device ID (`${UDID}`) to find out if it is connected:
+Physical phones have names (like "Pixel 7a") and Unique Device IDs (like "2D342JFKN23826"). Use UDIDs to address it directly with `adb`. To find out if a specific device is connected use:
 ```bash
 adb devices | grep -c ${UDID}
 ```
@@ -32,7 +32,7 @@ List all applications installed on the selected phone:
 ```bash
 adb -s ${UDID} shell pm list packages
 ```
-If an old version of your app is installed, you may be better to remove it first, and them re-install it. Some Androids will skip apk install, if the app exist on the device in the same version.
+If an old version of your app is installed, you may be better to remove it first, and them re-install it. Some Androids will skip apk install, if the app exist on the device in the same version. You need to know the full package name to run the uninstall command against it.
 ```bash
 adb -s ${UDID} uninstall "${APP_PACKAGE_NAME}"
 ```
@@ -55,7 +55,7 @@ Get platform version of the device:
 ```bash
 adb shell getprop ro.build.version.release
 ```
-And same command using the UDID value:
+And same command using the `${UDID}` value:
 ```bash
 adb -s ${UDID} shell getprop ro.build.version.release
 ```
@@ -67,15 +67,10 @@ If you use a physical device, that has been turned on for some time, its device 
 ```bash
 adb -s ${UDID} logcat -c
 ```
-To find out what is the app package of the open application, and what is the activity visible on the device, you can inspect a dump from ADB:
+Then, after your tests are over, you can dump the logs saved on the physical device with command. The `-d` parameter after `logcat` commands it to dump the logs, and exit. The `-b` parameter specifies what buffers to read from. The `default` here limits output to `main`, `system`, `crash`, but to get all buffers, you can use `all`. More on the topic can be found in [the official documentation](https://developer.android.com/tools/logcat).
 ```bash
-adb -s ${UDID} shell "dumpsys window windows"
+adb -d -s ${UDID} logcat -d -b default > device_log.txt
 ```
-To find out name of the starting app activity, open the app and run the following command:
-```bash
-adb -s ${UDID} shell logcat -d | grep 'START u0' | tail -n 1 | sed 's/.*cmp=\(.*\)} .*/\1/g'
-```
-Note that the printed name may contain `/`, but you should remove it before using it as an Appium parameter.
 
 ## Android emulator start
 Below is a simplified list of the commands. For full documentation please refer to https://developer.android.com/studio/run/emulator-commandline.html
@@ -110,6 +105,7 @@ We recommend hard-coding the `${EMULATOR_PORT}` value in the emulator configurat
 After the tests are done, emulator can be shut down with:
 ```bash
 adb -s ${UDID} emu kill
+avdmanager -v delete avd -n "${DEVICE_NAME}"
 ```
 Note that emulator can take a while to shut down. Moreover, if the shutdown is incorrect or partial, processes or artifacts can remain, and prevent the start of the emulator next time.
 
