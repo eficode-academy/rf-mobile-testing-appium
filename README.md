@@ -92,7 +92,7 @@ If you are missing these tools, please use the official instructions on how to i
 Create environment with your preferred name (in the example it's `python-env`). Activate it. Check that pip in use is that of the virtual environment.
 ```bash
 python3 -m virtualenv python-env
-source python-env/bin/activate
+source python-env/bin/activate .
 which pip
 pip install -r requirements.txt
 ```
@@ -104,7 +104,7 @@ _Do not deactivate the python virtual environment!_
 In the same terminal, create a Node.js environment with your preferred name (in the example it's `node-env`). Activate it, and check that npm in use is that of the virtual environment.
 ```bash
 nodeenv node-env
-source node-env/bin/activate
+source node-env/bin/activate .
 which npm
 ```
 Install the necessary Node.js packages. Go for latest stable Appium (in February 2025 it is 2.15.0). Check with `which` that Appium is indeed installed in the virtual environment, not system-wide.
