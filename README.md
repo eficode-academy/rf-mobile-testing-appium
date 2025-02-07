@@ -107,7 +107,7 @@ nodeenv node-env
 source node-env/bin/activate
 which npm
 ```
-Install the necessary Node.js packages. Go for latest stable Appium (in February 2025 it is 1.15.0). Check with `which` that Appium is indeed installed in the virtual environment, not system-wide.
+Install the necessary Node.js packages. Go for latest stable Appium (in February 2025 it is 2.15.0). Check with `which` that Appium is indeed installed in the virtual environment, not system-wide.
 ```bash
 npm install -g appium
 npm install -g mjpeg-consumer
@@ -151,8 +151,8 @@ Note that Appium looks for `bundletool.jar`, while the distributed `.jar` file h
 
 You can rename the file, or keep the original (so you can still see the version), but create a soft-link to it. You also need to make it executable.
 ```bash
-ln -s bundletool-all-1.15.6.jar bundletool.jar
-chmod ug+x bundletool-all-1.15.6.jar
+ln -s bundletool-all-1.18.0.jar bundletool.jar
+chmod ug+x bundletool-all-1.18.0.jar
 ```
 
 ### ffmpeg
