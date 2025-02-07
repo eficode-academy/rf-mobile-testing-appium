@@ -15,3 +15,6 @@ package-lock.json
 */__pycache__/*
 __pycache__/*
 *env/
+*/Pixel*.resource
+*/Sony*.resource
+*/Samsung*.resource
