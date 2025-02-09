@@ -19,6 +19,8 @@ If you have trouble with the instructions, or would like to approach the topic d
   * [Step 2. Set up everything else for Android](#step-2-set-up-everything-else-for-android)
     * [Java](#java)
     * [bundletool jar](#bundletool-jar)
+      * [On Linux and MacOS](#on-linux-and-macos)
+      * [On Windows](#on-windows)
     * [ffmpeg](#ffmpeg)
     * [GStreamer tools](#gstreamer-tools)
   * [Step 3. Android setup summary and environment check](#step-3-android-setup-summary-and-environment-check)
@@ -34,6 +36,8 @@ Setup may be easier to do with macOS or Linux, however we had some problems with
 
 In the instructions we will make changes to the `${PATH}` variable.  Keep track of what you do to it!
 You can use this information later to create a script that enables the full environment instantly.
+
+Windows users are recommended to use short directory names (Windows `${PATH}` has a character limit of 260!), and when possible avoid spaces in naming.
 
 ## Step 0. Download Android SDK and its tools
 Make sure that you have a new Android Studio with Android SDK downloaded, and installed. Note that it is not enough to download the zip files, you also need to unpack them and use the SDK Manager to download binary tools as well as system image(s). That may require about 6-10GB of space.
@@ -124,7 +128,7 @@ Note that Appium installs the drivers in the `${APPIUM_HOME}` directory. If this
 
 Start with installing UiAutomator2 driver. Then execute Appium Doctor with for this driver. The output of this command will `WARN` you if you are still missing something.
 ```bash
-export APPIUM_HOME=/your/absolute/path/to/directory/for/appiumdrivers
+export APPIUM_HOME=/<you absolute path to appium drivers directory>
 appium driver install uiautomator2
 appium driver doctor uiautomator2
 ```
@@ -137,7 +141,7 @@ Alternatively, you can download Adoptium's Temurin Java from https://adoptium.ne
 
 Here are commands how the variables should look:
 ```bash
-export JAVA_HOME=/your-java-absolute-path
+export JAVA_HOME=/<you absolute path to java>
 echo ${JAVA_HOME}
 export PATH=${JAVA_HOME}/bin:${PATH}
 java -version
@@ -149,11 +153,26 @@ If you have more than one Java version installed, to avoid random errors, please
 Download the latest bundletool from https://github.com/google/bundletool/releases/ (in February 2025 it should be _1.18.0_). You will need to add it to the `${PATH}` for Appium.
 Note that Appium looks for `bundletool.jar`, while the distributed `.jar` file has a version number.
 
+#### On Linux and MacOS
 You can rename the file, or keep the original (so you can still see the version), but create a soft-link to it. You also need to make it executable.
 ```bash
 ln -s bundletool-all-1.18.0.jar bundletool.jar
 chmod ug+x bundletool-all-1.18.0.jar
 ```
+
+#### On Windows
+Windows will not recognize bundletool even if the `bundletool.jar` is named correctly and in a directory that is part of the `${PATH}`. This is because by default (and probably for safety reasons) in Windows `.jar` files are not seen as executables. It is possible to make `.jar` execute, but the effect is system-wide, so it may be safer to avoid it.
+
+Instead, Windows users can solve this in one of the following ways:
+- Create a `bundletool.bat` script (that executes bundletool passing to it any arguments), and add the script to the `${PATH}`. For simplicity, have the `.bat` and the `.jar` files in the same directory.
+```batch
+java -jar bundletool-all-1.18.0.jar %*
+```
+- Add a [doskey macro](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/doskey) (from [stackoverflow](https://stackoverflow.com/questions/53298843/how-do-i-install-bundletool/60967425#60967425))called `bundletool` that does pretty much same thing as above:
+```batch
+@doskey bundletool=java -jar <you absolute path to>\bundletool-all.jar $*
+```
+Note that the doskey macro will disappear on machine reboot.
 
 ### ffmpeg
 This is a necessary system-wide installation. Use official instructions from https://ffmpeg.org/download.html
