@@ -79,9 +79,9 @@ If you use a physical device, that has been turned on for some time, its device 
 ```bash
 adb -s ${UDID} logcat -c
 ```
-Then, after your tests are over, you can dump the logs saved on the physical device with command. The `-d` parameter after `logcat` commands it to dump the logs, and exit. The `-b` parameter specifies what buffers to read from. The `default` here limits output to `main`, `system`, `crash`, but to get all buffers, you can use `all`. More on the topic can be found in [the official documentation](https://developer.android.com/tools/logcat).
+Then, after your tests are over, you can dump the logs saved on the physical (or virtual) device with command. The `-d` parameter after `logcat` commands it to dump the logs, and exit. The `-b` parameter specifies what buffers to read from. The `default` here limits output to `main`, `system`, `crash`, but to get all buffers, you can use `all`. More on the topic can be found in [the official documentation](https://developer.android.com/tools/logcat).
 ```bash
-adb -d -s ${UDID} logcat -d -b default > device_log.txt
+adb -s ${UDID} logcat -d -b default > device_log.txt
 ```
 
 ## Android emulator start
