@@ -16,6 +16,7 @@ If you have trouble with the instructions, or would like to approach the topic d
   * [Step 1. Get Appium Doctor to work (in virtual environments)](#step-1-get-appium-doctor-to-work-in-virtual-environments)
     * [Create a python virtual environment](#create-a-python-virtual-environment)
     * [Create a nodeJS virtual environment](#create-a-nodejs-virtual-environment)
+    * [Virtual environments on Windows](#virtual-environments-on-windows)
   * [Step 2. Set up everything else for Android](#step-2-set-up-everything-else-for-android)
     * [Java](#java)
     * [bundletool jar](#bundletool-jar)
@@ -117,9 +118,16 @@ npm install -g appium
 npm install -g mjpeg-consumer
 which appium
 ```
-At this point you should have two virtual environments enabled at the same time. _Keep them both active!_
+At this point you should have two virtual environments enabled at the same time. You can keep both of them active.
 
 Alternatives to `nodeenv` (like prefix) are in [Further reading](./further-reading.md) document, if you cannot get it to work for you.
+
+### Virtual environments on Windows
+Windows users may have problems with enabling both Python and `nodeenv` virtual environments at the same time. Often what happens is that when the second virtual environment is activated, previously active virtual environment is automatically deactivated. This is however not an issue for this use case.
+
+During setup, Python virtual environment has to be active to create a `nodeenv` virtual environment. After that, `nodeenv` virtual environment has to be activated to install Appium. For that part, Python virtual environment is not necessary anymore, as `nodeenv` will work just fine without it.
+
+During testing, Python virtual environment has to be active in one terminal, where Robot Framework tests are executed. A second terminal is also needed to run Appium process, and in that terminal only `nodeenv` needs to stay active.
 
 ## Step 2. Set up everything else for Android
 You should be able to run Appium Doctor now! It is a tool that checks driver-specific setup, so you need drivers first, and then you can verify your setup is complete.
